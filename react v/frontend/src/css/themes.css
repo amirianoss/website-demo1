@@ -1,0 +1,90 @@
+:root {
+    /* Light Theme Colors */
+    --light-bg: #f5f5f5;
+    --light-text: #333;
+    --light-card-bg: #fff;
+    --light-card-text: #333;
+    --light-hover-bg: #e0e0e0;
+    --light-border: #ddd;
+    --light-nav-bg: #fff;
+    --light-nav-text: #333;
+    
+    /* Dark Theme Colors */
+    --dark-bg: #1a1a1a;
+    --dark-text: #fff;
+    --dark-card-bg: #2d2d2d;
+    --dark-card-text: #fff;
+    --dark-hover-bg: #3d3d3d;
+    --dark-border: #404040;
+    --dark-nav-bg: #2d2d2d;
+    --dark-nav-text: #fff;
+}
+
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.light-theme {
+    background-color: var(--light-bg);
+    color: var(--light-text);
+}
+
+body.dark-theme {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+/* Navbar Styles */
+.light-theme .navbar {
+    background-color: var(--light-nav-bg);
+    color: var(--light-nav-text);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dark-theme .navbar {
+    background-color: var(--dark-nav-bg);
+    color: var(--dark-nav-text);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Card Styles */
+.light-theme .movie-card {
+    background-color: var(--light-card-bg);
+    color: var(--light-card-text);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dark-theme .movie-card {
+    background-color: var(--dark-card-bg);
+    color: var(--dark-card-text);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Text Colors */
+.light-theme .movie-info p {
+    color: #666;
+}
+
+.dark-theme .movie-info p {
+    color: #ccc;
+}
+
+/* Links */
+.light-theme a {
+    color: var(--light-nav-text);
+}
+
+.dark-theme a {
+    color: var(--dark-nav-text);
+}
+
+/* Hover Effects */
+.light-theme .movie-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: var(--light-hover-bg);
+}
+
+.dark-theme .movie-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    background-color: var(--dark-hover-bg);
+}
