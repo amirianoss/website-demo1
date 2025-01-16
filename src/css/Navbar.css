@@ -1,0 +1,134 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #1a1a1a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.nav-title {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.nav-title:hover {
+    color: #007bff;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #007bff;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: 1rem;
+    padding-left: 1rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.username {
+    color: #fff;
+    font-weight: 500;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 59, 48, 0.1);
+    border: none;
+    border-radius: 20px;
+    color: #ff3b30;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 59, 48, 0.2);
+    transform: translateY(-2px);
+}
+
+.logout-btn .material-icons {
+    font-size: 1.2rem;
+}
+
+.register-btn {
+    background: var(--primary-color);
+    color: white !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.register-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+    opacity: 1 !important;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+    }
+    
+    .nav-title {
+        font-size: 1.2rem;
+    }
+    
+    .navbar-links {
+        gap: 1rem;
+    }
+    
+    .nav-link {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .user-menu {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-left: 0;
+        padding-left: 0;
+        border-left: none;
+    }
+
+    .username {
+        font-size: 0.9rem;
+    }
+
+    .logout-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+}
