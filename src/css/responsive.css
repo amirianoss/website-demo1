@@ -32,105 +32,132 @@
 
   /* Movie Card Grid */
   .movie-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
-    gap: 1rem !important;
-    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.5rem !important;
+    padding: 0.5rem;
   }
 
   .movie-card {
     max-width: none;
+    margin: 0;
+  }
+
+  .movie-info {
+    padding: 0.5rem;
   }
 
   .movie-title {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    -webkit-line-clamp: 1;
+  }
+
+  .movie-meta {
+    font-size: 0.7rem;
+    margin-top: 0.25rem;
+  }
+
+  .movie-rating svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .favorite-btn {
+    width: 28px;
+    height: 28px;
+    top: 0.25rem;
+    right: 0.25rem;
+  }
+
+  .favorite-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Movie Overlay */
+  .movie-overlay {
+    display: none; /* Hide overlay on mobile */
+  }
+
+  /* Touch-friendly hover alternative */
+  .movie-card:active .movie-info {
+    background: rgba(0, 0, 0, 0.9);
+  }
+
+  /* Movie Details */
+  .movie-detail-container {
+    padding: 0.5rem;
+  }
+
+  .movie-detail-poster {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .movie-detail-info {
+    padding: 0.5rem;
   }
 
   /* Search Box */
   .search-box {
     width: 100%;
     max-width: none;
-    margin: 1rem 0;
+    margin: 0.5rem;
   }
 
   .search-input {
     font-size: 0.9rem;
     padding: 0.5rem;
-  }
-
-  /* Movie Details Page */
-  .movie-detail-container {
-    flex-direction: column;
-    padding: 1rem;
-  }
-
-  .movie-detail-poster {
-    width: 100%;
-    max-width: 300px;
-    margin: 0 auto;
-  }
-
-  .movie-detail-info {
-    padding: 1rem 0;
-  }
-
-  /* Favorites and Watchlist */
-  .favorites-grid,
-  .watchlist-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 1rem;
-    padding: 1rem;
-  }
-
-  /* Forms */
-  .auth-form {
-    width: 90%;
-    max-width: none;
-    margin: 1rem auto;
-    padding: 1rem;
-  }
-
-  .form-input {
-    padding: 0.5rem;
-    font-size: 0.9rem;
-  }
-
-  /* Buttons */
-  .btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-  }
-
-  /* Theme Toggle */
-  .theme-toggle {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    z-index: 1000;
+    height: 40px;
   }
 
   /* Main Content */
   .main-content {
-    padding: 1rem;
+    padding: 0.5rem;
   }
 }
 
-/* Tablet Styles */
+/* Small Mobile Devices */
+@media screen and (max-width: 360px) {
+  .movie-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.25rem !important;
+    padding: 0.25rem;
+  }
+
+  .movie-title {
+    font-size: 0.7rem;
+  }
+
+  .movie-meta {
+    font-size: 0.6rem;
+  }
+
+  .favorite-btn {
+    width: 24px;
+    height: 24px;
+  }
+
+  .favorite-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Tablet Optimization */
 @media screen and (min-width: 769px) and (max-width: 1024px) {
   .movie-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 0.75rem !important;
+    padding: 0.75rem;
   }
 
-  .navbar {
-    padding: 1rem;
-  }
-
-  .main-content {
-    padding: 1.5rem;
+  .movie-title {
+    font-size: 0.9rem;
   }
 }
 
-/* Hamburger Menu Icon */
+/* Hamburger Menu */
 .mobile-menu-button {
   display: none;
   flex-direction: column;
@@ -144,6 +171,7 @@
   position: absolute;
   right: 1rem;
   top: 1rem;
+  z-index: 10;
 }
 
 .mobile-menu-button span {
