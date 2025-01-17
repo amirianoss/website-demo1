@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import '../css/NavBar.css';
+import '../css/Navbar.css';
 
 const NavBar = ({ user, onLogout }) => {
   const [menuOpen, setMenuOpen] = useState(false);
