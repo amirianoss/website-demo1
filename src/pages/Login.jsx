@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { AuthContext } from '../App';
 import '../css/Auth.css';
 
 const Login = () => {
@@ -9,6 +10,7 @@ const Login = () => {
     });
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { setCurrentUser } = useContext(AuthContext);
 
     const handleChange = (e) => {
         setFormData({
@@ -19,12 +21,12 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // اینجا می‌توانید اتصال به بک‌اند را پیاده‌سازی کنید
         const users = JSON.parse(localStorage.getItem('users') || '[]');
         const user = users.find(u => u.email === formData.email && u.password === formData.password);
         
         if (user) {
             localStorage.setItem('currentUser', JSON.stringify(user));
+            setCurrentUser(user);
             navigate('/');
         } else {
             setError('ایمیل یا رمز عبور اشتباه است');
@@ -61,7 +63,6 @@ const Login = () => {
                 </form>
                 <div className="auth-links">
                     <Link to="/register">ثبت‌نام نکرده‌اید؟</Link>
-                    <Link to="/forgot-password">فراموشی رمز عبور</Link>
                 </div>
             </div>
         </div>

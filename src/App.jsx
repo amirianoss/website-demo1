@@ -67,7 +67,7 @@ function App() {
               path="/watchlist" 
               element={
                 <PrivateRoute>
-                  <WatchList user={currentUser} />
+                  <WatchList />
                 </PrivateRoute>
               } 
             />

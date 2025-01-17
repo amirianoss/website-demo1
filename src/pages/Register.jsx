@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { AuthContext } from '../App';
 import '../css/Auth.css';
 
 const Register = () => {
@@ -11,6 +12,7 @@ const Register = () => {
     });
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const { setCurrentUser } = useContext(AuthContext);
 
     const handleChange = (e) => {
         setFormData({
@@ -44,13 +46,14 @@ const Register = () => {
         users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
         localStorage.setItem('currentUser', JSON.stringify(newUser));
+        setCurrentUser(newUser);
         navigate('/');
     };
 
     return (
         <div className="auth-container">
             <div className="auth-box">
-                <h2>ثبت‌نام</h2>
+                <h2>ثبت نام</h2>
                 {error && <div className="error-message">{error}</div>}
                 <form onSubmit={handleSubmit} className="auth-form">
                     <div className="form-group">
@@ -93,10 +96,10 @@ const Register = () => {
                             required
                         />
                     </div>
-                    <button type="submit" className="auth-button">ثبت‌نام</button>
+                    <button type="submit" className="auth-button">ثبت نام</button>
                 </form>
                 <div className="auth-links">
-                    <Link to="/login">قبلاً ثبت‌نام کرده‌اید؟</Link>
+                    <Link to="/login">قبلاً ثبت نام کرده‌اید؟</Link>
                 </div>
             </div>
         </div>

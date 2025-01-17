@@ -144,23 +144,25 @@ const MovieCard = ({movie, onFavoriteChange}) => {
         );
     };
 
-    function toggleFavorite(e) {
+    const toggleFavorite = (e) => {
         e.stopPropagation();
         const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        const isCurrentlyFavorite = favorites.some(fav => fav.id === movie.id);
         
-        if (isFavorite) {
-            const newFavorites = favorites.filter(fav => fav.id !== movie.id);
-            localStorage.setItem('favorites', JSON.stringify(newFavorites));
+        if (isCurrentlyFavorite) {
+            const updatedFavorites = favorites.filter(fav => fav.id !== movie.id);
+            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
             setIsFavorite(false);
-            if (onFavoriteChange) {
-                onFavoriteChange();
-            }
         } else {
-            const newFavorites = [...favorites, movie];
-            localStorage.setItem('favorites', JSON.stringify(newFavorites));
+            const updatedFavorites = [...favorites, movie];
+            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
             setIsFavorite(true);
         }
-    }
+        
+        if (onFavoriteChange) {
+            onFavoriteChange(movie.id);
+        }
+    };
 
     const formatDate = (date) => {
         if (!date) return '';
@@ -179,80 +181,56 @@ const MovieCard = ({movie, onFavoriteChange}) => {
     };
 
     return (
-        <>
-            <div className="movie-card">
-                <div className="movie-poster" onClick={handleMovieClick}>
-                    <img 
-                        src={IMG_PATH + movie.poster_path} 
-                        alt={movie.title}
-                    />
-                    <button 
-                        className={`favorite-btn ${isFavorite ? 'active' : ''}`}
-                        onClick={toggleFavorite}
-                        title={isFavorite ? 'حذف از علاقه‌مندی‌ها' : 'افزودن به علاقه‌مندی‌ها'}
-                    >
-                        <span>{isFavorite ? '❤️' : '🤍'}</span>
-                    </button>
-                    <div className="movie-overlay">
-                        <div className="movie-details">
-                            <h2>{movie.title}</h2>
-                            <p>{movie.overview}</p>
-                        </div>
+        <div className="movie-card" onClick={handleMovieClick}>
+            <div className="movie-poster">
+                <img 
+                    src={movie.poster_path ? `${IMG_PATH}${movie.poster_path}` : '/placeholder.jpg'} 
+                    alt={movie.title} 
+                />
+                <button 
+                    className={`favorite-btn ${isFavorite ? 'active' : ''}`} 
+                    onClick={toggleFavorite}
+                >
+                    <span>♥</span>
+                </button>
+                {showDownloadOptions && downloadInfo && (
+                    <div className="download-options">
+                        {downloadInfo.map((link, index) => (
+                            <a 
+                                key={index}
+                                href={link.url}
+                                className="download-link"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                دانلود {link.quality}
+                            </a>
+                        ))}
                     </div>
-                </div>
-                <div className="movie-info">
-                    <h3>{movie.title}</h3>
-                    <span className={`rating ${getClassByRate(movie.vote_average)}`}>
-                        {movie.vote_average}
+                )}
+            </div>
+            <div className="movie-info">
+                <h3>{movie.title}</h3>
+                <div className="movie-meta">
+                    <span className="movie-rating">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                        </svg>
+                        {movie.vote_average.toFixed(1)}
+                    </span>
+                    <span className="movie-year">
+                        {movie.release_date ? movie.release_date.split('-')[0] : 'N/A'}
                     </span>
                 </div>
-                <div className="movie-actions">
-                    <button
-                        onClick={() => setShowListOptions(true)}
-                        className="add-to-list-btn"
-                        title="Add to List"
-                    >
-                        <span className="material-icons">playlist_add</span>
-                    </button>
-                </div>
-                <div className="buttons-container">
-                </div>
-                <div className="movie-info">
-                    <p className="release-date">تاریخ انتشار: {formatDate(movie.release_date)}</p>
-                    <p className="vote-average">امتیاز: {formatVoteAverage(movie.vote_average)}</p>
-                    <p className="overview">{movie.overview}</p>
-                    <button 
-                        className={`download-btn ${isLoading ? 'loading' : ''}`}
-                        onClick={handleDownloadClick}
-                        disabled={isLoading}
-                        title="دانلود فیلم"
-                    >
-                        <span className="download-icon">
-                            {isLoading ? '⏳' : '📥'}
-                        </span>
-                        دانلود
-                    </button>
-                    <button 
-                        className="download-btn"
-                        onClick={handleMovieClick}
-                        style={{ marginTop: '10px' }}
-                    >
-                        <span className="download-icon">🎬</span>
-                        TRAILER
-                    </button>
-                </div>
-                {showListOptions && <ListOptionsPopup />}
             </div>
-            {showTrailer && (
-                <TrailerModal 
-                    videoKey={trailerKey} 
-                    onClose={() => {
-                        setShowTrailer(false);
-                        setTrailerKey(null);
-                    }}
+            {showTrailer && trailerKey && (
+                <TrailerModal
+                    trailerKey={trailerKey}
+                    onClose={() => setShowTrailer(false)}
                 />
             )}
-        </>
+        </div>
     );
 };
 
