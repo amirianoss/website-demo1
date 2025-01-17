@@ -1,0 +1,140 @@
+/* Mobile First Approach (Base Styles) */
+.navbar {
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.movie-card {
+  width: 100%;
+  transition: transform 0.2s;
+}
+
+.movie-poster {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Tablet Styles */
+@media screen and (min-width: 768px) {
+  .navbar {
+    padding: 1rem 2rem;
+  }
+
+  .movie-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .movie-poster {
+    height: 250px;
+  }
+
+  .movie-title {
+    font-size: 1rem;
+  }
+}
+
+/* Desktop Styles */
+@media screen and (min-width: 1024px) {
+  .navbar {
+    padding: 1rem 4rem;
+  }
+
+  .movie-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .movie-poster {
+    height: 300px;
+  }
+
+  .movie-card:hover {
+    transform: scale(1.05);
+  }
+
+  .movie-title {
+    font-size: 1.1rem;
+  }
+}
+
+/* Large Desktop Styles */
+@media screen and (min-width: 1440px) {
+  .movie-grid {
+    grid-template-columns: repeat(5, 1fr);
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+}
+
+/* Navigation Menu for Mobile */
+@media screen and (max-width: 767px) {
+  .navbar {
+    flex-direction: column;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-link {
+    padding: 0.5rem;
+    width: 100%;
+  }
+
+  .user-menu {
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Movie Details Responsive */
+@media screen and (max-width: 767px) {
+  .movie-detail-container {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .movie-detail-poster {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .movie-detail-info {
+    padding: 1rem 0;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .movie-detail-container {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .movie-detail-poster {
+    max-width: 400px;
+  }
+
+  .movie-detail-info {
+    flex: 1;
+  }
+}
