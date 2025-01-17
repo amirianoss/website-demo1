@@ -1,459 +1,235 @@
 .movie-card {
-    position: relative;
+    background-color: var(--card-background);
     border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    background-color: #1a1a1a;
-    transition: transform 0.2s;
-    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    margin: 10px;
     width: 100%;
     max-width: 300px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
 }
 
 .movie-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .movie-poster {
     position: relative;
-    aspect-ratio: 2/3;
     width: 100%;
-    height: auto;
-    max-height: 450px;
+    aspect-ratio: 2/3;
+    height: 400px;
+    overflow: hidden;
 }
 
 .movie-poster img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
-.movie-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 1rem;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.movie-details {
-    margin-top: auto;
-}
-
-.movie-details h3 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-    color: #fff;
-}
-
-.movie-info-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.info-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.info-label {
-    color: #ccc;
-    font-size: 0.9rem;
-    font-weight: bold;
-}
-
-.info-value {
-    color: #fff;
-    font-size: 0.85rem;
-    line-height: 1.4;
-}
-
-.info-item.overview {
-    margin-top: 0.5rem;
-}
-
-.info-item.overview .info-value {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.buttons-container {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    gap: 8px;
-    z-index: 1;
-}
-
-.download-options {
-    position: absolute;
-    bottom: 4rem;
-    right: 1rem;
-    background: rgba(0, 0, 0, 0.95);
-    border-radius: 8px;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    z-index: 100;
-    min-width: 200px;
-    animation: fadeIn 0.3s ease;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(5px);
-}
-
-.download-btn {
-    width: 100%;
-    padding: 0.8rem;
-    margin-top: 1rem;
-    background: linear-gradient(45deg, #2196F3, #21CBF3);
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-}
-
-.download-btn:hover {
-    background: linear-gradient(45deg, #1976D2, #00BCD4);
-    transform: translateY(-2px);
-}
-
-.download-btn:active {
-    transform: translateY(1px);
-}
-
-.download-btn:disabled {
-    background: linear-gradient(45deg, #9E9E9E, #BDBDBD);
-    opacity: 0.7;
-    cursor: not-allowed;
-    transform: none;
-}
-
-.download-btn.loading {
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.02);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-.download-icon {
-    font-size: 1.2rem;
-}
-
-.close-options-btn {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: #ff4444;
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    transition: all 0.3s ease;
-}
-
-.close-options-btn:hover {
-    background: #ff0000;
-    transform: scale(1.1);
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.rating {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: rgba(0, 0, 0, 0.85);
-    padding: 8px;
-    border-radius: 12px;
-    color: white;
-    font-weight: bold;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-}
-
-.rating::before {
-    content: '⭐';
-    font-size: 0.9rem;
-}
-
-.rating:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-}
-
-.rating.green {
-    background: linear-gradient(45deg, rgba(76, 175, 80, 0.9), rgba(105, 220, 110, 0.9));
-}
-
-.rating.orange {
-    background: linear-gradient(45deg, rgba(255, 152, 0, 0.9), rgba(255, 193, 7, 0.9));
-}
-
-.rating.red {
-    background: linear-gradient(45deg, rgba(244, 67, 54, 0.9), rgba(255, 87, 34, 0.9));
+    transition: transform 0.3s ease;
 }
 
 .movie-info {
     padding: 1rem;
-    text-align: right;
+    background: linear-gradient(to top, var(--card-background) 0%, transparent 100%);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: white;
+    text-align: center;
 }
 
-.movie-info h3 {
-    margin: 0;
+.movie-title {
     font-size: 1rem;
-    color: #fff;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.movie-info p {
-    margin: 0.5rem 0 0;
-    color: #888;
+.movie-date {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+}
+
+.movie-rating {
+    display: inline-block;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-weight: 600;
     font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.movie-rating.green {
+    background-color: rgba(40, 167, 69, 0.8);
+}
+
+.movie-rating.orange {
+    background-color: rgba(255, 193, 7, 0.8);
+}
+
+.movie-rating.red {
+    background-color: rgba(220, 53, 69, 0.8);
 }
 
 .favorite-btn {
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 40px;
-    height: 40px;
+    background: rgba(0, 0, 0, 0.6);
     border: none;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(4px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    z-index: 10;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
 }
 
-.favorite-btn:hover {
-    transform: scale(1.15);
-    background: rgba(0, 0, 0, 0.85);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+.favorite-btn span {
+    color: white;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
 }
 
-.favorite-btn:active {
-    transform: scale(0.95);
+.favorite-btn:hover span {
+    transform: scale(1.2);
 }
 
 .favorite-btn.active {
-    background: rgba(255, 0, 0, 0.3);
-    border: 2px solid rgba(255, 0, 0, 0.5);
-}
-
-.favorite-btn.active:hover {
-    background: rgba(255, 0, 0, 0.4);
-}
-
-@keyframes heartBeat {
-    0% { transform: scale(1); }
-    25% { transform: scale(1.2); }
-    50% { transform: scale(1); }
-    75% { transform: scale(1.2); }
-    100% { transform: scale(1); }
+    background: rgba(220, 53, 69, 0.8);
 }
 
 .favorite-btn.active span {
-    animation: heartBeat 1s ease-in-out;
+    color: white;
 }
 
-.download-options-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
+.movie-actions {
     display: flex;
+    gap: 0.5rem;
     justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    margin-top: 0.5rem;
 }
 
-.download-options-modal {
-    background: var(--background-color);
-    border-radius: 10px;
-    padding: 20px;
-    width: 90%;
-    max-width: 500px;
-    max-height: 80vh;
-    overflow-y: auto;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.download-options-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.download-options-header h3 {
-    margin: 0;
-    font-size: 1.2rem;
-}
-
-.close-btn {
-    background: none;
+.watch-trailer-btn {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
     border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--text-color);
-    padding: 5px;
-}
-
-.download-options-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.download-option {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    background: var(--card-background);
-    border-radius: 8px;
+    border-radius: 4px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
 }
 
-.download-option:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.watch-trailer-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: translateY(-1px);
 }
 
-.option-name {
-    font-weight: 500;
+.watch-trailer-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
 }
 
-.option-quality {
-    padding: 4px 8px;
+.download-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
     background: var(--primary-color);
+    border: none;
+    border-radius: 5px;
     color: white;
-    border-radius: 4px;
-    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
 }
 
-.option-size {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
+.download-btn:hover {
+    background: var(--primary-color-dark);
 }
 
-.list-options-popup {
+.download-icon {
+    font-size: 1.2em;
+}
+
+.download-btn.loading {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.download-options {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--background-secondary);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    min-width: 200px;
-    direction: rtl;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
-.list-options-popup h3 {
-    margin: 0 0 15px 0;
+.download-link {
+    color: white;
+    text-decoration: none;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
     text-align: center;
-    color: var(--text-primary);
+    transition: background-color 0.3s ease;
 }
 
-.list-option-btn {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    background: var(--background-primary);
-    border: none;
+.download-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.movie-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    background: var(--rating-bg);
     border-radius: 4px;
-    color: var(--text-primary);
-    cursor: pointer;
-    transition: background-color 0.3s;
+    color: var(--rating-color);
 }
 
-.list-option-btn:hover {
-    background: #2196F3;
-    color: white;
+.movie-rating svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--rating-color);
 }
 
-.close-popup-btn {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 15px;
-    background: #f44336;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.movie-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
 }
 
-.close-popup-btn:hover {
-    background: #d32f2f;
+.movie-year {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
 }
 
 .add-to-list-btn {
@@ -467,33 +243,51 @@
 }
 
 .add-to-list-btn:hover {
-    background: #1976D2;
-    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.material-icons {
+    font-size: 24px;
 }
 
 /* Responsive Design */
 @media screen and (max-width: 1200px) {
   .movie-card {
-    max-width: 250px;
+    max-width: 180px;
   }
 }
 
 @media screen and (max-width: 768px) {
   .movie-card {
-    max-width: 200px;
+    max-width: 150px;
   }
   
   .movie-info h3 {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
   
   .movie-info p {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 }
 
 @media screen and (max-width: 480px) {
   .movie-card {
-    max-width: 160px;
+    max-width: 120px;
   }
+}
+
+@media (max-width: 768px) {
+    .movie-title {
+        font-size: 0.9rem;
+    }
+
+    .movie-date {
+        font-size: 0.75rem;
+    }
+
+    .watch-trailer-btn {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+    }
 }

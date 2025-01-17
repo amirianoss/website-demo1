@@ -1,35 +1,64 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import "../css/navbar.css";
+import '../css/Navbar.css';
 
-function NavBar({ user, onLogout }) {
-    return (
-        <nav className="navbar">
-            <div className="navbar-brand">
-                <Link to="/" className="nav-title">🎬 Movies</Link>
-            </div>
-            <div className="navbar-links">
-                <Link to="/" className="nav-link">Home</Link>
-                <Link to="/favorites" className="nav-link">Favorites</Link>
-                <Link to="/watchlist" className="nav-link">My Lists</Link>
-                <Link to="/contact" className="nav-link">Contact</Link>
-                <Link to="/actors" className="nav-link">Actors</Link>
-                {user ? (
-                    <div className="user-menu">
-                        <span className="username">{user.name}</span>
-                        <button onClick={onLogout} className="logout-btn">
-                            <span className="material-icons">logout</span>
-                        </button>
-                    </div>
-                ) : (
-                    <>
-                        <Link to="/login" className="nav-link">Login</Link>
-                        <Link to="/register" className="nav-link register-btn">Register</Link>
-                    </>
-                )}
-            </div>
-        </nav>
-    );
-}
+const NavBar = ({ user, onLogout }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navRef = useRef(null);
+
+  const closeMenu = () => setMenuOpen(false);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <nav className="navbar" ref={navRef}>
+      <div className="nav-brand">
+        <Link to="/" onClick={closeMenu}>MOVIELAND</Link>
+      </div>
+      <button 
+        className="hamburger" 
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Toggle navigation menu"
+      >
+        {menuOpen ? '✕' : '☰'}
+      </button>
+      <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
+        <Link to="/" onClick={closeMenu}>HOME</Link>
+        <Link to="/actors" onClick={closeMenu}>ACTORS</Link>
+        {user ? (
+          <>
+            <Link to="/favorites" onClick={closeMenu}>FAVORITES</Link>
+            <Link to="/watchlist" onClick={closeMenu}>WATCHLIST</Link>
+          </>
+        ) : null}
+        <Link to="/contact" onClick={closeMenu}>CONTACT</Link>
+        <div className="nav-user">
+          {user ? (
+            <>
+              <div className="user-info">
+                <span className="user-name">{user.username}</span>
+              </div>
+              <button onClick={() => { closeMenu(); onLogout(); }}>LOGOUT</button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" onClick={closeMenu}>LOGIN</Link>
+              <Link to="/register" onClick={closeMenu}>REGISTER</Link>
+            </>
+          )}
+        </div>
+      </div>
+    </nav>
+  );
+};
 
 export default NavBar;

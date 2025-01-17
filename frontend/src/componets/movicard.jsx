@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { getMovieDownloadLink } from "../services/movieDownload";
 import { getMovieDetails } from "../services/api";
 import TrailerModal from "./TrailerModal";
-import "../css/MovieCard.css";
+import '../css/MovieCard.css';
 
 const IMG_PATH = 'https://image.tmdb.org/t/p/w500/';
+const API_KEY = 'f330d6cffe67147f7b99caf3f00e2dec'; 
 
 const MovieCard = ({movie, onFavoriteChange}) => {
     const [isFavorite, setIsFavorite] = useState(false);
@@ -144,23 +145,83 @@ const MovieCard = ({movie, onFavoriteChange}) => {
         );
     };
 
-    function toggleFavorite(e) {
+    const toggleFavorite = (e) => {
         e.stopPropagation();
         const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        let newFavorites;
         
         if (isFavorite) {
-            const newFavorites = favorites.filter(fav => fav.id !== movie.id);
-            localStorage.setItem('favorites', JSON.stringify(newFavorites));
-            setIsFavorite(false);
-            if (onFavoriteChange) {
-                onFavoriteChange();
-            }
+            newFavorites = favorites.filter(fav => fav.id !== movie.id);
         } else {
-            const newFavorites = [...favorites, movie];
-            localStorage.setItem('favorites', JSON.stringify(newFavorites));
-            setIsFavorite(true);
+            newFavorites = [...favorites, movie];
         }
-    }
+        
+        localStorage.setItem('favorites', JSON.stringify(newFavorites));
+        setIsFavorite(!isFavorite);
+        if (onFavoriteChange) {
+            onFavoriteChange(movie.id);
+        }
+    };
+
+    const openTrailer = async () => {
+        try {
+            const url = `https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${API_KEY}&language=en-US`;
+            console.log('Movie ID:', movie.id);
+            console.log('Fetching URL:', url);
+
+            const response = await fetch(url);
+            console.log('Response status:', response.status);
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('API Error:', errorText);
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Full API Response:', data);
+            
+            if (!data.results || data.results.length === 0) {
+                console.log('No videos in response');
+                alert('No trailer available for this movie.');
+                return;
+            }
+
+            console.log('Available videos:', data.results);
+
+            // Try to find official trailer first
+            let trailer = data.results.find(
+                video => video.type === "Trailer" && 
+                        video.site === "YouTube" && 
+                        video.official === true
+            );
+
+            // If no official trailer, try any trailer
+            if (!trailer) {
+                trailer = data.results.find(
+                    video => video.type === "Trailer" && 
+                            video.site === "YouTube"
+                );
+            }
+
+            // If still no trailer, use the first video
+            if (!trailer && data.results.length > 0) {
+                trailer = data.results[0];
+            }
+            
+            if (trailer) {
+                console.log('Selected video for playback:', trailer);
+                setTrailerKey(trailer.key);
+                setShowTrailer(true);
+            } else {
+                console.log('No suitable video found');
+                alert('No trailer available for this movie.');
+            }
+        } catch (error) {
+            console.error('Detailed error:', error);
+            alert('Error loading trailer. Please try again later.');
+        }
+    };
 
     const formatDate = (date) => {
         if (!date) return '';
@@ -178,81 +239,75 @@ const MovieCard = ({movie, onFavoriteChange}) => {
         return 'red';
     };
 
+    const getRatingColor = (rating) => {
+        if (rating >= 7) return 'green';
+        if (rating >= 5) return 'orange';
+        return 'red';
+    };
+
     return (
-        <>
-            <div className="movie-card">
-                <div className="movie-poster" onClick={handleMovieClick}>
-                    <img 
-                        src={IMG_PATH + movie.poster_path} 
-                        alt={movie.title}
-                    />
-                    <button 
-                        className={`favorite-btn ${isFavorite ? 'active' : ''}`}
-                        onClick={toggleFavorite}
-                        title={isFavorite ? 'حذف از علاقه‌مندی‌ها' : 'افزودن به علاقه‌مندی‌ها'}
-                    >
-                        <span>{isFavorite ? '❤️' : '🤍'}</span>
-                    </button>
-                    <div className="movie-overlay">
-                        <div className="movie-details">
-                            <h2>{movie.title}</h2>
-                            <p>{movie.overview}</p>
-                        </div>
+        <div className="movie-card">
+            <div className="movie-poster">
+                <img 
+                    src={movie.poster_path ? `${IMG_PATH}${movie.poster_path}` : '/placeholder.jpg'} 
+                    alt={movie.title} 
+                    loading="lazy"
+                />
+                <button
+                    className={`favorite-btn ${isFavorite ? 'active' : ''}`}
+                    onClick={toggleFavorite}
+                    aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                >
+                    <span>{isFavorite ? '❤️' : '🤍'}</span>
+                </button>
+                {showDownloadOptions && downloadInfo && (
+                    <div className="download-options">
+                        {downloadInfo.map((link, index) => (
+                            <a 
+                                key={index}
+                                href={link.url}
+                                className="download-link"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                دانلود {link.quality}
+                            </a>
+                        ))}
+                    </div>
+                )}
+                <div className="movie-info">
+                    <h3 className="movie-title">{movie.title}</h3>
+                    <div className="movie-date">
+                        {movie.release_date ? movie.release_date.split('-')[0] : 'N/A'}
+                    </div>
+                    <div className={`movie-rating ${getRatingColor(movie.vote_average)}`}>
+                        {movie.vote_average?.toFixed(1)}
+                    </div>
+                    <div className="movie-actions">
+                        <button 
+                            className="watch-trailer-btn"
+                            onClick={openTrailer}
+                            aria-label="Watch trailer"
+                        >
+                            <svg viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            Watch Trailer
+                        </button>
                     </div>
                 </div>
-                <div className="movie-info">
-                    <h3>{movie.title}</h3>
-                    <span className={`rating ${getClassByRate(movie.vote_average)}`}>
-                        {movie.vote_average}
-                    </span>
-                </div>
-                <div className="movie-actions">
-                    <button
-                        onClick={() => setShowListOptions(true)}
-                        className="add-to-list-btn"
-                        title="Add to List"
-                    >
-                        <span className="material-icons">playlist_add</span>
-                    </button>
-                </div>
-                <div className="buttons-container">
-                </div>
-                <div className="movie-info">
-                    <p className="release-date">تاریخ انتشار: {formatDate(movie.release_date)}</p>
-                    <p className="vote-average">امتیاز: {formatVoteAverage(movie.vote_average)}</p>
-                    <p className="overview">{movie.overview}</p>
-                    <button 
-                        className={`download-btn ${isLoading ? 'loading' : ''}`}
-                        onClick={handleDownloadClick}
-                        disabled={isLoading}
-                        title="دانلود فیلم"
-                    >
-                        <span className="download-icon">
-                            {isLoading ? '⏳' : '📥'}
-                        </span>
-                        دانلود
-                    </button>
-                    <button 
-                        className="download-btn"
-                        onClick={handleMovieClick}
-                        style={{ marginTop: '10px' }}
-                    >
-                        <span className="download-icon">🎬</span>
-                        TRAILER
-                    </button>
-                </div>
-                {showListOptions && <ListOptionsPopup />}
             </div>
-            {showTrailer && (
-                <TrailerModal 
-                    videoKey={trailerKey} 
+            {showTrailer && trailerKey && (
+                <TrailerModal
+                    videoKey={trailerKey}
                     onClose={() => {
                         setShowTrailer(false);
                         setTrailerKey(null);
                     }}
                 />
             )}
-        </>
+        </div>
     );
 };
 

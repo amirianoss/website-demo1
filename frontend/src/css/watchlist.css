@@ -1,162 +1,131 @@
 .watchlist-container {
-    display: flex;
-    padding: 20px;
-    gap: 20px;
-    min-height: calc(100vh - 100px);
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.lists-sidebar {
-    width: 300px;
-    background: var(--background-secondary);
-    border-radius: 8px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.watchlist-container h2 {
+  color: var(--text-color);
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
-.new-list-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.new-list-input {
-    padding: 10px;
-    border: 2px solid var(--background-primary);
-    border-radius: 6px;
-    background: var(--background-primary);
-    color: var(--text-primary);
-}
-
-.create-list-btn {
-    padding: 10px;
-    background: #2196F3;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.create-list-btn:hover {
-    background: #1976D2;
-}
-
-.lists-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow-y: auto;
-}
-
-.list-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px;
-    background: var(--background-primary);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.list-item:hover {
-    transform: translateX(-5px);
-}
-
-.list-item.selected {
-    background: #2196F3;
-    color: white;
-}
-
-.list-name {
-    font-weight: 500;
-}
-
-.movie-count {
-    font-size: 0.9em;
-    color: var(--text-secondary);
-}
-
-.delete-list-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 1.2em;
-    cursor: pointer;
-    padding: 0 5px;
-}
-
-.list-content {
-    flex: 1;
-    background: var(--background-secondary);
-    border-radius: 8px;
-    padding: 20px;
-}
-
-.movies-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px 0;
+.watchlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
 }
 
 .movie-card {
-    background: var(--background-primary);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.3s;
+  background-color: var(--card-background);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .movie-card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.movie-poster {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
+.movie-image {
+  position: relative;
+  width: 100%;
+  padding-top: 150%; /* 2:3 aspect ratio */
+  cursor: pointer;
+}
+
+.movie-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .movie-info {
-    padding: 15px;
-    text-align: center;
+  padding: 1rem;
 }
 
 .movie-info h3 {
-    margin: 0 0 10px 0;
-    font-size: 1.1em;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.remove-movie-btn {
-    padding: 8px 15px;
-    background: #f44336;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.movie-info p {
+  color: var(--text-color);
+  opacity: 0.8;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
 }
 
-.remove-movie-btn:hover {
-    background: #d32f2f;
+.movie-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-.no-list-selected {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    color: var(--text-secondary);
-    text-align: center;
+.movie-rating span {
+  color: var(--text-color);
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
-/* RTL Support */
-.watchlist-container {
-    direction: rtl;
+.remove-button {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
 }
 
-.list-item:hover {
-    transform: translateX(5px);
+.remove-button:hover {
+  background-color: #c82333;
+}
+
+.empty {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.empty h2 {
+  color: var(--text-color);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.empty p {
+  color: var(--text-color);
+  opacity: 0.8;
+  font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .watchlist-container {
+    padding: 1rem;
+  }
+
+  .watchlist-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .movie-info h3 {
+    font-size: 1rem;
+  }
 }

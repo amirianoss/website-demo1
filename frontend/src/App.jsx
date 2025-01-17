@@ -2,6 +2,7 @@ import React, { useState, useEffect, createContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './css/App.css';
 import './css/themes.css';
+import './css/responsive.css';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
 import Contact from './pages/Contact';
@@ -66,7 +67,7 @@ function App() {
               path="/watchlist" 
               element={
                 <PrivateRoute>
-                  <WatchList user={currentUser} />
+                  <WatchList />
                 </PrivateRoute>
               } 
             />
