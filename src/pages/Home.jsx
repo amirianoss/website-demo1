@@ -1,8 +1,7 @@
+import React, { useState, useEffect } from "react"
 import MovieCard from "../componets/movicard"
-import {useState,useEffect} from "react"
 import "../css/Home.css"
-import { searchMovies,getPopularMovies } from "../services/api";
-
+import { searchMovies, getPopularMovies } from "../services/api";
 
 
 function Home() {
@@ -26,8 +25,6 @@ console.log(err);
 finally {
 setLoading(false);
 }
-
-
 
 
 
@@ -64,9 +61,6 @@ setLoading(false)
 
 
 
-
-
-
         }
     };
 return (
@@ -80,7 +74,6 @@ return (
     <input type="text" className="search-input" placeholder="Search for movies..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
    <button type="submit" className="search-button">Search</button> 
     </form>
-
 
 
 {error && <div className="error-message">{error}</div>}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { getMovieDownloadLink } from "../services/movieDownload";
 import { getMovieDetails } from "../services/api";
 import TrailerModal from "./TrailerModal";
@@ -149,15 +149,24 @@ const MovieCard = ({movie, onFavoriteChange}) => {
         const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
         const isCurrentlyFavorite = favorites.some(fav => fav.id === movie.id);
         
+        let updatedFavorites;
         if (isCurrentlyFavorite) {
-            const updatedFavorites = favorites.filter(fav => fav.id !== movie.id);
-            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-            setIsFavorite(false);
+            updatedFavorites = favorites.filter(fav => fav.id !== movie.id);
         } else {
-            const updatedFavorites = [...favorites, movie];
-            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-            setIsFavorite(true);
+            // Make sure we're adding all necessary movie data
+            const movieToAdd = {
+                id: movie.id,
+                title: movie.title,
+                poster_path: movie.poster_path,
+                vote_average: movie.vote_average,
+                release_date: movie.release_date,
+                overview: movie.overview
+            };
+            updatedFavorites = [...favorites, movieToAdd];
         }
+        
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+        setIsFavorite(!isCurrentlyFavorite);
         
         if (onFavoriteChange) {
             onFavoriteChange(movie.id);

@@ -1,24 +1,24 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import MovieCard from '../componets/movicard';
 import '../css/Favorites.css';
 
 function Favorites() {
     const [favorites, setFavorites] = useState([]);
 
-    useEffect(() => {
-        // Initial load
+    const loadFavorites = () => {
         const savedFavorites = JSON.parse(localStorage.getItem('favorites') || '[]');
         setFavorites(savedFavorites);
+    };
+
+    useEffect(() => {
+        loadFavorites();
+        // Add event listener for storage changes
+        window.addEventListener('storage', loadFavorites);
+        return () => window.removeEventListener('storage', loadFavorites);
     }, []);
 
     const handleFavoriteChange = (movieId) => {
-        // Immediately remove the movie from state
-        setFavorites(currentFavorites => {
-            const updatedFavorites = currentFavorites.filter(movie => movie.id !== movieId);
-            // Update localStorage after state update
-            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-            return updatedFavorites;
-        });
+        loadFavorites(); // Reload favorites after change
     };
 
     return (
@@ -34,7 +34,7 @@ function Favorites() {
                         <MovieCard 
                             key={movie.id} 
                             movie={movie} 
-                            onFavoriteChange={() => handleFavoriteChange(movie.id)}
+                            onFavoriteChange={handleFavoriteChange}
                         />
                     ))}
                 </div>
